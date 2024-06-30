@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "350781593918",
+    "project_id": "stockcalculator-1d0f5",
+    "storage_bucket": "stockcalculator-1d0f5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:350781593918:android:1c5c6929b05ce132de346f",
+        "android_client_info": {
+          "package_name": "com.example.stcok_calculator"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBntM40K4jzul-LeCX4Vg7bSIZTjKxDZqU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
