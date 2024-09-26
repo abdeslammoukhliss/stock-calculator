@@ -1,23 +1,50 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:stcok_calculator/widgets/add_product_dialog_widget.dart';
+import 'package:stcok_calculator/widgets/filter_widget.dart';
 import 'package:stcok_calculator/widgets/products_list_widget.dart';
 
-class ProductsPage extends StatefulWidget {
-  const ProductsPage({Key? key}) : super(key: key);
+import '../controllers/user_controller.dart';
 
-  @override
-  _ProductsPageState createState() => _ProductsPageState();
-}
-class _ProductsPageState extends State<ProductsPage> {
+class ProductsPage extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Products'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.download),
+            onPressed: () {
+              context.read<UserController>().downloadFile(context);
+            }),
+          IconButton(
+            icon: const Icon(Icons.delete),
+            onPressed: () {
+              context.read<UserController>().deleteFile();
+            }
+            ,
+          ),
+        ]
+
+        ,
       ),
-      body: ProductListWidget(),
+      body: Column(
+        children: [
+          Container(child: FilterWidget(title: "title", onFilterSelected: (filter) {}),height: 150,),
+          Expanded(child: ProductListWidget()),
+        ],
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.of(context).pop();
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AddProductDialog();
+            },
+          );
         },
         child: const Icon(Icons.add),
       )

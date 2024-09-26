@@ -7,14 +7,9 @@ class ProductService {
 
   ProductService({required this.firestoreInstance});
 
-  Future<void> addProduct(String name, double unitPrice, String user, String imageUrl) async {
+  Future<void> addProduct(Product product) async {
     try {
-      await firestoreInstance.collection('products').add({
-        'name': name,
-        'unitPrice': unitPrice,
-        'user': user,
-        'imageUrl': imageUrl,
-      });
+      await firestoreInstance.collection('products').add(product.toJson());
       print('Product added successfully!');
     } catch (e) {
       print('Error adding product: $e');
@@ -23,13 +18,16 @@ class ProductService {
   }
 
   Stream<List<Product>> getProductsStream() {
-    return firestoreInstance.collection('products').snapshots().map((QuerySnapshot query) {
+    return firestoreInstance
+        .collection('products')
+        .orderBy('createdAt', descending: true) // Order by createdAt descending
+        .snapshots()
+        .map((QuerySnapshot query) {
       return query.docs.map((doc) {
         return Product.fromSnapshot(doc);
       }).toList();
     });
   }
-
   Future<void> deleteProduct(String productId) async {
     try {
       await firestoreInstance.collection('products').doc(productId).delete();

@@ -4,7 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:stcok_calculator/pages/main_page.dart';
 import 'package:stcok_calculator/pages/products_page.dart';
+import 'package:stcok_calculator/services/csv_service.dart';
+import 'package:stcok_calculator/services/fire_storage_service.dart';
 import 'package:stcok_calculator/services/prodcut_service.dart';
+import 'package:stcok_calculator/services/product_service_csv.dart';
 
 import 'controllers/user_controller.dart';
 import 'firebase_options.dart';
@@ -26,7 +29,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => UserController(productService:  ProductService(firestoreInstance: FirebaseFirestore.instance)))
+        ChangeNotifierProvider(create: (context) => UserController(productService:  ProductServiceCSV(),fireStorageService: FireStorageService(),csvService: CSVService())),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',

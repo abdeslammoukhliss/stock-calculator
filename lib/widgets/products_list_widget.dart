@@ -6,40 +6,36 @@ import 'package:stcok_calculator/widgets/product_item_widget.dart';
 
 import '../entities/product.dart';
 
-class ProductListWidget extends StatelessWidget {
+class ProductListWidget extends StatefulWidget {
+  @override
+  State<ProductListWidget> createState() => _ProductListWidgetState();
+}
+
+class _ProductListWidgetState extends State<ProductListWidget> {
    List<Product> products = [];
 
+ @override
+  void initState() {
+    context.read<UserController>().getProducts();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<List<Product>>(
-      stream: context.read<UserController>().getProductsStream(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
-        } else if (snapshot.hasError) {
-          return Center(child: Text('Error: ${snapshot.error}'));
-        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          return Center(child: Text('No products available'));
-        } else {
-          products = snapshot.data!;
-          return ListView.builder(
+    products = context.watch<UserController>().displayedProducts;
+
+          return products.isEmpty?Center(child: Text('No Products Found'),):
+            ListView.builder(
             itemCount: products.length,
             itemBuilder: (context, index) {
-              return ProductItemWidget(
-                  product: products[index],
-                  onProductClick: (product) {
-                    print('Product Clicked: ${product.name}');
-                  });
+              return Container(
+                child: ProductItemWidget(
+                    product: products[index],
+                    onProductClick: (product) {
+                      print('Product Clicked: ${product.name}');
+                    }),
+              );
             },
           );
-        }
 
-      },
-
-
-    );
-    return Container(
-
-    );
   }
 }

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import '../entities/product.dart';
@@ -21,11 +22,12 @@ class ProductItemWidget extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Image.network(
-                product.imageUrl,
-                width: 150,
-                height: 150,
-                fit: BoxFit.cover,
+              CachedNetworkImage(
+                imageUrl: product.imageUrl,
+                placeholder: (context, url) => CircularProgressIndicator(),
+                errorWidget: (context, url, error) => Icon(Icons.error),
+                width: 100,
+                height: 100,
               ),
               const SizedBox(width: 10),
               Expanded(
@@ -36,22 +38,22 @@ class ProductItemWidget extends StatelessWidget {
                       "Name: ${product.name}",
                       style: const TextStyle(fontSize: 18),
                     ),
-                    const SizedBox(height: 5),
+                    const SizedBox(height: 3),
                     Text(
                       "Quantity: ${product.quantity}",
                       style: const TextStyle(fontSize: 18),
                     ),
-                    const SizedBox(height: 5),
+                    const SizedBox(height: 3),
                     Text(
                       "Unit Price: ${product.unitPrice}",
                       style: const TextStyle(fontSize: 18),
                     ),
-                    const SizedBox(height: 5),
+                    const SizedBox(height: 3),
                     Text(
                       "User: ${product.user}",
                       style: const TextStyle(fontSize: 18),
                     ),
-                    const SizedBox(height: 5),
+                    const SizedBox(height: 3),
                     Text(
                       "Total: ${(product.quantity * product.unitPrice).toString()}",
                       style: const TextStyle(fontSize: 18),
